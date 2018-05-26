@@ -1,15 +1,14 @@
 <template>
   <div class="select">
-    <div class="inner">
-      <div class="inputWrapper" @click.stop="showOptions = !showOptions">
+    <div class="inner" v-clickOut="test">
+      <div class="inputWrapper" @click="showOptions = !showOptions">
         <input type="text" readonly placeholder="请选择菜品" :value="selected">
         <span class="iconfont icon-zhankaishangxia"></span>
       </div>
-      <ul class="options" v-show="showOptions" v-clickOut="test">
-        <li v-for="(item, index) in options" :key="index" @click.stop="choose(item.value)">{{item.value}}</li>
+      <ul class="options" v-show="showOptions">
+        <li v-for="(item, index) in options" :key="index" @click="choose(item.value)">{{item.value}}</li>
       </ul>
     </div>
-    <div v-if="example2()">{{ example }}</div>
   </div>
 </template>
 
@@ -35,8 +34,7 @@ export default {
         }
       ],
       selected: '',
-      showOptions: false,
-      example: '这是一个example'
+      showOptions: false
     }
   },
   methods: {
@@ -44,6 +42,7 @@ export default {
       this.showOptions = false
       if (name !== this.selected) {
         this.selected = name
+        this.$emit('selected', name)
       }
     },
     outsideDirec() {
@@ -60,7 +59,7 @@ export default {
     clickOut: {
       bind: function(el, binding) {
         function handler(e) {
-          if (el.contains(el.target)) return false
+          if (el.contains(e.target)) return false
           if (binding.expression) {
             binding.value()
           }

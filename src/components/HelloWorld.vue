@@ -7,7 +7,11 @@
         <li v-for="(item, index) in options" :key="index" @click.stop="select(item.name)">{{item.name}}</li>
       </ul>
     </div>  -->
-    <Select @on-change="getSelect"></Select>
+
+    <div style="marginTop: 200px; display: flex;">
+      <Select @selected="getSelect"></Select>
+      <Select @selected="getSelect"></Select>
+    </div>
   </div>
 </template>
 
